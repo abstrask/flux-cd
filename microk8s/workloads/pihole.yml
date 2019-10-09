@@ -70,7 +70,7 @@ spec:
           value: 89.233.43.71
         - name: TZ
           value: "Europe/Copenhagen"
-        - name: DNS_FQDN_REQUIRED
+        - name: DNS_FQDN_REQUIRED # defaults to true, which breaks Chromecast cast icon
           value: false
         - name: WEBPASSWORD
           valueFrom:
