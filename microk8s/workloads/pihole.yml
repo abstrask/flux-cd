@@ -70,6 +70,8 @@ spec:
           value: 89.233.43.71
         - name: TZ
           value: "Europe/Copenhagen"
+        - name: DNS_FQDN_REQUIRED
+          value: false
         - name: WEBPASSWORD
           valueFrom:
             secretKeyRef:
