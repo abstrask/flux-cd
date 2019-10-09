@@ -62,7 +62,7 @@ spec:
         # - name: ServerIP
           # value: 192.168.0.4
         - name: VIRTUAL_HOST
-          value: 192.168.0.4:8000
+          value: 192.168.0.4:30000/pihole
         - name: DNS1
           value: 91.239.100.100
         - name: DNS2
@@ -118,19 +118,19 @@ spec:
   externalIPs:
   - 192.168.0.4
   
-# ---
-# apiVersion: networking.k8s.io/v1beta1
-# kind: Ingress
-# metadata:
-#   name: pihole
-#   namespace: pihole
-#   annotations:
-#     traefik.frontend.rule.type: PathPrefixStrip
-# spec:
-#   rules:
-#   - http:
-#       paths:
-#       - path: /pihole
-#         backend:
-#           serviceName: pihole
-#           servicePort: web
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: pihole
+  namespace: pihole
+  # annotations:
+    # traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /pihole
+        backend:
+          serviceName: pihole
+          servicePort: web
