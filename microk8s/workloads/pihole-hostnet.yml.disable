@@ -43,6 +43,7 @@ spec:
         app: pihole
         name: pihole
     spec:
+      hostNetwork: true
       volumes:
       - name: pihole-local-etc-volume
         persistentVolumeClaim:
@@ -65,8 +66,10 @@ spec:
       - name: pihole
         image: pihole/pihole:latest
         ports:
-          - containerPort: 8000
+          - containerPort: 8001
+            hostPort: 8001
           - containerPort: 53
+            hostPort: 53
         volumeMounts:
         - name: pihole-local-etc-volume
           mountPath: "/etc/pihole"
@@ -77,7 +80,7 @@ spec:
         # - name: ServerIP
           # value: 192.168.0.4
         - name: VIRTUAL_HOST
-          value: "192.168.0.4:8000"
+          value: "192.168.0.4:8001"
           # value: 192.168.0.4:30000/pihole
         - name: DNS1
           value: 91.239.100.100
@@ -88,40 +91,40 @@ spec:
         - name: DNS_FQDN_REQUIRED
           value: "false"
         - name: WEB_PORT
-          value: "8000"
+          value: "8001"
         - name: WEBPASSWORD
           valueFrom:
             secretKeyRef:
               name: pihole
               key: WEBPASSWORD
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pihole
-  namespace: pihole
-spec:
-  type: NodePort
-  selector:
-    app: pihole
-  ports:
-  - port: 8000
-    targetPort: 8000
-    name: web
-  - port: 53
-    targetPort: 53
-    protocol: TCP
-    name: dns-tcp
-  - port: 53
-    targetPort: 53
-    protocol: UDP
-    name: dns-udp
-  # Attempt to preserve source IP - https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
-  # Does not seem to work, possibly because accessing via service port, not nodeport
-  externalTrafficPolicy: Local
-  externalIPs:
-  - 192.168.0.4
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: pihole
+#   namespace: pihole
+# spec:
+#   type: NodePort
+#   selector:
+#     app: pihole
+#   ports:
+#   - port: 8000
+#     targetPort: 80
+#     name: web
+#   - port: 53
+#     targetPort: 53
+#     protocol: TCP
+#     name: dns-tcp
+#   - port: 53
+#     targetPort: 53
+#     protocol: UDP
+#     name: dns-udp
+#   # Attempt to preserve source IP - https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
+#   # Does not seem to work, possibly because accessing via service port, not nodeport
+#   externalTrafficPolicy: Local
+#   externalIPs:
+#   - 192.168.0.4
   
 # ---
 # apiVersion: networking.k8s.io/v1beta1
