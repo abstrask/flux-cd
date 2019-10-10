@@ -59,6 +59,7 @@ spec:
       - name: pihole
         image: pihole/pihole:latest
         env:
+        # Kubernetes accepts env variables only as strings - https://github.com/kubernetes/dashboard/issues/1603#issuecomment-311306926
         # - name: ServerIP
           # value: 192.168.0.4
         - name: VIRTUAL_HOST
