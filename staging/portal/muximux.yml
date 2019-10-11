@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muximux
+  namespace: portal
+  labels:
+    app: muximux
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: muximux
+  template:
+    metadata:
+      labels:
+        app: muximux
+    spec:
+      containers:
+      - name: muximux
+        image: linuxserver/muximux:latest
+        ports:
+        - name: http
+          containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: muximux
+  namespace: portal
+spec:
+  type: ClusterIP
+  selector:
+    app: muximux
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: muximux
+  namespace: portal
+  annotations:
+    # traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /muximux
+        backend:
+          serviceName: muximux
+          servicePort: web
