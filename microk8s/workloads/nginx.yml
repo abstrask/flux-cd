@@ -16,21 +16,12 @@ spec:
       labels:
         app: nginx
     spec:
-      # hostNetwork: true
       containers:
       - name: nginx
         image: nginx:1.17.4
         ports:
         - name: web
-          # hostPort: 80
           containerPort: 80
-        # resources:
-        #   requests:
-        #     cpu: "50Mi"
-        #     memory: "1M"
-        #   limits:
-        #     cpu: "1000Mi"
-        #     memory: "1G"
 
 ---
 apiVersion: v1
@@ -47,8 +38,6 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 80
-  externalIPs:
-    - 192.168.0.4
 
 ---
 apiVersion: networking.k8s.io/v1beta1
@@ -56,8 +45,6 @@ kind: Ingress
 metadata:
   name: nginx
   namespace: nginx
-  annotations:
-    traefik.ingress.kubernetes.io/priority: "1"
 spec:
   rules:
   - http:
