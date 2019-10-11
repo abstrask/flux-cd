@@ -1,0 +1,39 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: pihole
+spec:
+  stripPrefix:
+    prefixes:
+      - /pihole
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: replacepath
+  namespace: pihole
+spec:
+  replacePathRegex:
+    regex: ^/pihole/(.*)
+    replacement: /$1
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  entrypoints:
+    - http
+  routes:
+  - match: PathPrefix(`/pihole`)
+    kind: Rule
+    services:
+    - name: pihole
+      port: 8000
+    middlewares:
+      - name: stripprefix

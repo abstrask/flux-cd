@@ -77,8 +77,8 @@ spec:
         - name: ServerIP
           value: 192.168.0.4
         - name: VIRTUAL_HOST
-          # value: "192.168.0.4:8000"
           value: 192.168.0.4
+          # value: "192.168.0.4:8000"
         - name: DNS1
           value: 91.239.100.100
         - name: DNS2
