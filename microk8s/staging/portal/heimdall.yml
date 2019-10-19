@@ -36,10 +36,10 @@ spec:
   selector:
     app: heimdall
   ports:
-    - name: web
-      protocol: TCP
-      port: 80
-      targetPort: 80
+  - name: web
+    protocol: TCP
+    port: 80
+    targetPort: 80
 
 ---
 apiVersion: networking.k8s.io/v1beta1
@@ -57,3 +57,44 @@ spec:
         backend:
           serviceName: heimdall
           servicePort: web
+
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: portal
+spec:
+  stripPrefix:
+    prefixes:
+    - /heimdall
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: replacepath
+  namespace: portal
+spec:
+  replacePathRegex:
+    regex: ^/heimdall/(.*)
+    replacement: /$1
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: heimdall
+  namespace: portal
+spec:
+  entrypoints:
+  - http
+  routes:
+  - match: PathPrefix(`/heimdall`)
+    kind: Rule
+    services:
+    - name: heimdall
+      port: 80
+    middlewares:
+    - name: replacepath

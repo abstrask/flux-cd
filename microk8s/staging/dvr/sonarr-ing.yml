@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr
+  namespace: dvr
+spec:
+  entrypoints:
+  - http
+  routes:
+  - match: PathPrefix(`/sonarr`)
+    kind: Rule
+    services:
+    - name: sonarr
+      port: 8989
+    middlewares:
+    - name: stripprefix
