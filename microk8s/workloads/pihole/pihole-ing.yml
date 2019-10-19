@@ -7,7 +7,7 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-      - /pihole
+    - /pihole
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -28,7 +28,7 @@ metadata:
   namespace: pihole
 spec:
   entrypoints:
-    - http
+  - http
   routes:
   - match: PathPrefix(`/pihole`)
     kind: Rule
@@ -36,4 +36,4 @@ spec:
     - name: pihole
       port: 8000
     middlewares:
-      - name: stripprefix
+    - name: stripprefix
