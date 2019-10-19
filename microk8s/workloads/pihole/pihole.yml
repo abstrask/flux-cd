@@ -65,8 +65,10 @@ spec:
       - name: pihole
         image: pihole/pihole:latest
         ports:
-          - containerPort: 80
-          - containerPort: 53
+        - name: web
+          containerPort: 80
+        - name: dns
+          containerPort: 53
         volumeMounts:
         - name: pihole-local-etc-volume
           mountPath: "/etc/pihole"
@@ -106,17 +108,17 @@ spec:
   selector:
     app: pihole
   ports:
-  - port: 8000
-    targetPort: 80
-    name: web
-  - port: 53
-    targetPort: 53
+  - name: web
+    port: 8000
+    targetPort: web
+  - name: dns-tcp
     protocol: TCP
-    name: dns-tcp
-  - port: 53
-    targetPort: 53
+    port: 53
+    targetPort: dns
+  - name: dns-udp
     protocol: UDP
-    name: dns-udp
+    port: 53
+    targetPort: dns
   # Attempt to preserve source IP - https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   # Does not seem to work, possibly because accessing via service port, not nodeport
   externalTrafficPolicy: Local
