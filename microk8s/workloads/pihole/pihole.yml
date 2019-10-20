@@ -77,10 +77,9 @@ spec:
         env:
         # Kubernetes accepts env variables only as strings - https://github.com/kubernetes/dashboard/issues/1603#issuecomment-311306926
         - name: ServerIP
-          value: 192.168.0.4
+          value: 192.168.0.10
         - name: VIRTUAL_HOST
-          value: 192.168.0.4
-          # value: "192.168.0.4:8000"
+          value: 192.168.0.10
         - name: DNS1
           value: 91.239.100.100
         - name: DNS2
@@ -89,8 +88,6 @@ spec:
           value: "Europe/Copenhagen"
         - name: DNS_FQDN_REQUIRED
           value: "false"
-        # - name: WEB_PORT
-        #   value: "80"
         - name: WEBPASSWORD
           valueFrom:
             secretKeyRef:
