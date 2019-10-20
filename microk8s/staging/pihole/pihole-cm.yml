@@ -5,12 +5,12 @@ metadata:
   namespace: pihole
 data:
   10-custom-hosts.conf: |
-    addn-hosts=/etc/dnsmasq.d/custom.list
+    addn-hosts=/etc/pihole/custom.list
   custom.list: |
     192.168.0.1 gw
     192.168.0.2 server
     192.168.0.3 freenas1
     192.168.0.4 kube
-    192.168.0.10 traefik
+    192.168.0.10 ingress
     192.168.0.11 pihole
-    192.168.0.254 pihole
+    192.168.0.254 pi

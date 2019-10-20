@@ -78,12 +78,16 @@ spec:
         - name: dns
           containerPort: 53
         volumeMounts:
-        - name: pihole-local-etc-volume
-          mountPath: /etc/pihole
-        - name: pihole-local-dnsmasq-volume
-          mountPath: /etc/dnsmasq.d
-        - name: dnsmasq-custom-hosts-volume
-          mountPath: /etc/dnsmasq.d/
+        - mountPath: /etc/pihole
+          name: pihole-local-etc-volume
+        - mountPath: /etc/dnsmasq.d
+          name: pihole-local-dnsmasq-volume
+        - mountPath: /etc/dnsmasq.d/10-custom-hosts.conf
+          name: dnsmasq-custom-hosts-volume
+          subPath: 10-custom-hosts.conf
+        - mountPath: /etc/pihole/custom.list
+          name: dnsmasq-custom-hosts-volume
+          subPath: custom.list
         env:
         # Kubernetes accepts env variables only as strings - https://github.com/kubernetes/dashboard/issues/1603#issuecomment-311306926
         - name: ServerIP

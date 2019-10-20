@@ -41,6 +41,8 @@ spec:
         ports:
         - name: http
           containerPort: 80
+        - name: https
+          containerPort: 443
         - name: traefik
           containerPort: 8080
         securityContext:
@@ -69,6 +71,9 @@ spec:
   - name: http
     protocol: TCP
     port: 80
+  - name: https
+    protocol: TCP
+    port: 443
   - name: traefik
     protocol: TCP
     port: 8080
