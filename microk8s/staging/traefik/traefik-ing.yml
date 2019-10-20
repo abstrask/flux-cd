@@ -1,0 +1,30 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: dashboard-mw
+  namespace: traefik
+spec:
+  replacePathRegex:
+    regex: ^/traefik/(.*)
+    replacement: /dashboard/$1
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: traefik
+spec:
+  entrypoints:
+  - https
+  routes:
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/traefik`)
+    kind: Rule
+    services:
+    - name: traefik
+      port: 8080
+    middlewares:
+    - name: dashboard-mw
+  tls:
+    certResolver: default

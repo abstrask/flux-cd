@@ -28,12 +28,14 @@ metadata:
   namespace: pihole
 spec:
   entrypoints:
-  - http
+  - https
   routes:
-  - match: PathPrefix(`/pihole`)
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/pihole`)
     kind: Rule
     services:
     - name: pihole-tcp
       port: 80
     middlewares:
     - name: stripprefix
+  tls:
+    certResolver: default
