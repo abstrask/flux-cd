@@ -50,6 +50,14 @@ spec:
       - name: pihole-local-dnsmasq-volume
         persistentVolumeClaim:
           claimName: pihole-local-dnsmasq-claim
+      - name: dnsmasq-custom-hosts-volume
+        configMap:
+          name: dnsmasq-hosts
+          items:
+          - key: 10-custom-hosts.conf
+            path: 10-custom-hosts.conf
+          - key: custom.list
+            path: custom.list
       initContainers:
       # Clearing the password in config, causes Pi-Hole to reset password from Env at start
       - name: clear-password
@@ -71,9 +79,11 @@ spec:
           containerPort: 53
         volumeMounts:
         - name: pihole-local-etc-volume
-          mountPath: "/etc/pihole"
+          mountPath: /etc/pihole
         - name: pihole-local-dnsmasq-volume
-          mountPath: "/etc/dnsmasq.d"
+          mountPath: /etc/dnsmasq.d
+        - name: dnsmasq-custom-hosts-volume
+          mountPath: /etc/dnsmasq.d/
         env:
         # Kubernetes accepts env variables only as strings - https://github.com/kubernetes/dashboard/issues/1603#issuecomment-311306926
         - name: ServerIP
