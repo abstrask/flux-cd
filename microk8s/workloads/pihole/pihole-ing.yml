@@ -33,7 +33,7 @@ spec:
   - match: PathPrefix(`/pihole`)
     kind: Rule
     services:
-    - name: pihole
-      port: 8000
+    - name: pihole-tcp
+      port: 80
     middlewares:
     - name: stripprefix
