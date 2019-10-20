@@ -1,0 +1,101 @@
+# https://hub.docker.com/r/linuxserver/transmission
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission-config-claim
+  namespace: dvr
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission-watch-claim
+  namespace: dvr
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  namespace: dvr
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+      volumes:
+      - name: transmission-config-vol
+        persistentVolumeClaim:
+          claimName: transmission-config-claim
+      - name: transmission-watch-vol
+        persistentVolumeClaim:
+          claimName: transmission-watch-claim
+      - name: dvr-downloads-vol
+        persistentVolumeClaim:
+          claimName: dvr-downloads-claim
+      containers:
+      - name: transmission
+        image: linuxserver/transmission:latest
+        ports:
+        - name: web
+          containerPort: 9091
+        - name: torrent
+          containerPort: 51413
+        volumeMounts:
+        - name: transmission-config-vol
+          mountPath: "/config"
+        - name: transmission-watch-vol
+          mountPath: "/watch"
+        - name: dvr-downloads-vol
+          mountPath: "/downloads"
+        env:
+        - name: TZ
+          value: Europe/Copenhagen
+        - name: USER
+          valueFrom:
+            secretKeyRef:
+              name: transmission
+              key: USER
+        - name: PASS
+          valueFrom:
+            secretKeyRef:
+              name: transmission
+              key: PASS
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission
+  namespace: dvr
+spec:
+  type: ClusterIP
+  selector:
+    app: transmission
+  ports:
+  - name: web
+    protocol: TCP
+    port: 9091
+    targetPort: web
+

@@ -1,4 +1,17 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-config-claim
+  namespace: dvr
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,12 +29,32 @@ spec:
       labels:
         app: sonarr
     spec:
+      volumes:
+      - name: sonarr-config-vol
+        persistentVolumeClaim:
+          claimName: sonarr-config-claim
+      - name: dvr-tv-vol
+        persistentVolumeClaim:
+          claimName: dvr-tv-claim
+      - name: dvr-downloads-vol
+        persistentVolumeClaim:
+          claimName: dvr-downloads-claim
       containers:
       - name: sonarr
         image: linuxserver/sonarr:latest
         ports:
         - name: web
           containerPort: 8989
+        volumeMounts:
+        - name: sonarr-config-vol
+          mountPath: "/config"
+        - name: dvr-tv-vol
+          mountPath: "/tv"
+        - name: dvr-downloads-vol
+          mountPath: "/downloads"
+        env:
+        - name: TZ
+          value: Europe/Copenhagen
 
 ---
 apiVersion: v1
