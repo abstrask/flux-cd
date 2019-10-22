@@ -75,7 +75,11 @@ spec:
         ports:
         - name: web
           containerPort: 80
-        - name: dns
+        - name: dns-udp
+          protocol: UDP
+          containerPort: 53
+        - name: dns-tcp
+          protocol: TCP
           containerPort: 53
         volumeMounts:
         - mountPath: /etc/pihole
