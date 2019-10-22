@@ -18,11 +18,11 @@
 #     # Using named targetPorts does not work correctly, when multiple service ports (different protocols) point to the same named containerPort
 #     # Kubernetes endpoints (kubectl get endpoints) are not generated for the conflicting ports
 #     # Can't see this limitation documented anywhere - bug?
-#     # targetPort: dns
+#     # targetPort: dns-tcp
 #   - name: dns-udp
 #     protocol: UDP
 #     port: 53
-#     # targetPort: dns
+#     # targetPort: dns-udp
 #   externalIPs:
 #   - 192.168.0.4
 
@@ -45,7 +45,7 @@ spec:
   - name: dns-tcp
     protocol: TCP
     port: 53
-    # targetPort: dns
+    targetPort: dns-tcp
   # externalTrafficPolicy must be Local to preserve source IP
   # https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   # https://kubernetes.io/docs/tutorials/services/source-ip/
@@ -69,7 +69,7 @@ spec:
   - name: dns-udp
     protocol: UDP
     port: 53
-    # targetPort: dns
+    targetPort: dns-udp
   # externalTrafficPolicy must be Local to preserve source IP
   # https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   # https://kubernetes.io/docs/tutorials/services/source-ip/
