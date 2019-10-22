@@ -2,27 +2,31 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: grafana-stripprefix
+  name: kubernetes-prefix
   namespace: kube-system
 spec:
   stripPrefix:
     prefixes:
-    - /grafana
-
+    - /dashboard
+    
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: grafana
+  name: kubernetes-dashboard
   namespace: kube-system
 spec:
   entrypoints:
   - https
   routes:
-  - match: Host(`hal.rask.dk`) && PathPrefix(`/grafana`)
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/dashboard`)
     kind: Rule
     services:
-    - serviceName: monitoring-grafana
-      servicePort: 80
+    - name: kubernetes-dashboard
+      port: 443
+    middlewares:
+    - name: kubernetes-prefix
+      namespace: kube-system
   tls:
     certResolver: default
+    passthrough: true
