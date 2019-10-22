@@ -1,16 +1,5 @@
 ---
 apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: dashboard-mw
-  namespace: traefik
-spec:
-  replacePathRegex:
-    regex: ^/traefik/(.*)
-    replacement: /dashboard/$1
-
----
-apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: traefik-dashboard
@@ -25,6 +14,7 @@ spec:
     - name: traefik
       port: 8080
     middlewares:
-    - name: dashboard-mw
+    - name: traefik-auth
+      namespace: traefik
   tls:
     certResolver: default

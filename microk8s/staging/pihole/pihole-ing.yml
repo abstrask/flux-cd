@@ -13,12 +13,12 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: replacepath
+  name: redirect
   namespace: pihole
 spec:
-  replacePathRegex:
-    regex: ^/pihole/(.*)
-    replacement: /$1
+  redirectRegex:
+    regex: ^https://hal.rask.dk/pihole(/|/admin)?$
+    replacement: https://hal.rask.dk/pihole/admin/
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -36,6 +36,7 @@ spec:
     - name: pihole-tcp
       port: 80
     middlewares:
+    - name: redirect
     - name: stripprefix
   tls:
     certResolver: default

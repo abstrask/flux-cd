@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: dashboard-mw
+  namespace: traefik
+spec:
+  replacePathRegex:
+    regex: ^/traefik/(.*)
+    replacement: /dashboard/$1
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-auth
+  namespace: traefik
+spec:
+  basicAuth:
+    secret: traefik-users

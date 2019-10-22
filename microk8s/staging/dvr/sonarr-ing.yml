@@ -2,16 +2,37 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: sonarr
+  name: sonarr-ext
   namespace: dvr
 spec:
   entrypoints:
-  - http
+  - https
   routes:
-  - match: PathPrefix(`/sonarr`)
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/sonarr`)
     kind: Rule
     services:
     - name: sonarr
       port: 8989
-    # middlewares:
-    # - name: stripprefix
+    middlewares:
+    - name: traefik-auth
+      namespace: traefik
+  tls:
+    certResolver: default
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: sonarr-int
+#   namespace: dvr
+# spec:
+#   entrypoints:
+#   - https
+#   routes:
+#   - match: Host(`hal.rask.dk`) && PathPrefix(`/sonarr`) && SOURCEIP??
+#     kind: Rule
+#     services:
+#     - name: sonarr
+#       port: 8989
+#   tls:
+#     certResolver: default

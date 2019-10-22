@@ -47,12 +47,12 @@ spec:
         - mountPath: /etc/traefik
           name: traefik-volume
         ports:
+        - name: traefik
+          containerPort: 8080
         - name: http
           containerPort: 80
         - name: https
           containerPort: 443
-        - name: traefik
-          containerPort: 8080
         securityContext:
           capabilities:
             drop:
@@ -65,7 +65,7 @@ spec:
         - --log=true
         - --log.level=INFO
         - --api.dashboard=true
-        # - --api.insecure
+        # - --api.insecure=true
         - --entrypoints.http.Address=:80
         - --entrypoints.https.Address=:443
         - --providers.kubernetesIngress
