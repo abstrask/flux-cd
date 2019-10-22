@@ -2,6 +2,24 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  name: sonarr-calendar
+  namespace: dvr
+spec:
+  entrypoints:
+  - https
+  routes:
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/sonarr/feed/calendar/`) # default priority = length of rule
+    kind: Rule
+    services:
+    - name: sonarr
+      port: 8989
+  tls:
+    certResolver: default
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
   name: sonarr-ext
   namespace: dvr
 spec:

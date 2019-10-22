@@ -18,3 +18,15 @@ metadata:
 spec:
   basicAuth:
     secret: traefik-users
+    namespace: traefik
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-https
+  namespace: traefik
+spec:
+  redirectScheme:
+    scheme: https
+    

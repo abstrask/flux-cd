@@ -1,20 +1,57 @@
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: traefik-dashboard
-  namespace: traefik
-spec:
-  entrypoints:
-  - https
-  routes:
-  - match: Host(`hal.rask.dk`) && PathPrefix(`/traefik`)
-    kind: Rule
-    services:
-    - name: traefik
-      port: 8080
-    middlewares:
-    - name: traefik-auth
-      namespace: traefik
-  tls:
-    certResolver: default
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: http-to-https-redirect
+#   namespace: traefik
+# spec:
+#   entrypoints:
+#   - http
+#   routes:
+#   - match: Method(`GET`)
+#     kind: Rule
+#     services:
+#     - name: traefik
+#       port: 80
+#     middlewares:
+#     - name: redirect-https
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: traefik-dashboard
+#   namespace: traefik
+# spec:
+#   entrypoints:
+#   - https
+#   routes:
+#   - match: Host(`hal.rask.dk`) && PathPrefix(`/traefik`)
+#     kind: Rule
+#     services:
+#     - name: traefik
+#       port: 8080
+#     middlewares:
+#     - name: traefik-auth
+#   tls:
+#     certResolver: default
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: traefik-dashboard
+#   namespace: traefik
+# spec:
+#   entrypoints:
+#   - https
+#   routes:
+#   - match: "Host(`hal.rask.dk`) && ((PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+#     kind: Rule
+#     services:
+#     - name: api@internal
+#       # port: 8080
+#     # middlewares:
+#     # - name: api@internal
+#   tls:
+#     certResolver: default
