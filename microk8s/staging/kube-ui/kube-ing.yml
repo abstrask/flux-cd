@@ -1,32 +1,33 @@
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: kubernetes-prefix
-  namespace: kube-system
-spec:
-  stripPrefix:
-    prefixes:
-    - /dashboard
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: Middleware
+# metadata:
+#   name: kubernetes-prefix
+#   namespace: kube-system
+# spec:
+#   stripPrefix:
+#     prefixes:
+#     - /dashboard
     
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: kubernetes-dashboard
-  namespace: kube-system
-spec:
-  entrypoints:
-  - https
-  routes:
-  - match: Host(`hal.rask.dk`) && PathPrefix(`/dashboard`)
-    kind: Rule
-    services:
-    - name: kubernetes-dashboard
-      port: 443
-    middlewares:
-    - name: kubernetes-prefix
-      namespace: kube-system
-  tls:
-    certResolver: default
-    passthrough: true
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: kubernetes-dashboard
+#   namespace: kube-system
+# spec:
+#   entrypoints:
+#   - https
+#   routes:
+#   - match: Host(`hal.rask.dk`) && PathPrefix(`/dashboard`)
+#     kind: Rule
+#     services:
+#     - name: kubernetes-dashboard
+#       port: 443
+#     middlewares:
+#     - name: kubernetes-prefix
+#       namespace: kube-system
+#   tls:
+#     certResolver: default
+#     passthrough: true
+

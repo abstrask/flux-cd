@@ -11,6 +11,8 @@ data:
     192.168.0.2 server
     192.168.0.3 freenas1
     192.168.0.4 kube
-    192.168.0.10 ingress
-    192.168.0.11 pihole
+    192.168.0.10 traefik-ext
+    192.168.0.11 traefik-int
+    192.168.0.12 pihole
+    192.168.0.13 traefik-v1
     192.168.0.254 pi

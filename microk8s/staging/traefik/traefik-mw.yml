@@ -2,7 +2,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: dashboard-mw
+  name: dashboard
   namespace: traefik
 spec:
   replacePathRegex:
@@ -29,4 +29,3 @@ metadata:
 spec:
   redirectScheme:
     scheme: https
-    

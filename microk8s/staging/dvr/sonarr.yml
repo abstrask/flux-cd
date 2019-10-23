@@ -71,4 +71,3 @@ spec:
     protocol: TCP
     port: 8989
     targetPort: web
-

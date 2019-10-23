@@ -38,6 +38,7 @@ spec:
   type: LoadBalancer
   selector:
     app: pihole
+  loadBalancerIP: 192.168.0.99
   ports:
   - name: web
     port: 80
@@ -50,7 +51,6 @@ spec:
   # https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
   # https://kubernetes.io/docs/tutorials/services/source-ip/
   externalTrafficPolicy: Cluster # https://metallb.universe.tf/usage/#ip-address-sharing
-  loadBalancerIP: 192.168.0.11
 
 ---
 apiVersion: v1
@@ -64,7 +64,7 @@ spec:
   type: LoadBalancer
   selector:
     app: pihole
-  loadBalancerIP: 192.168.0.11
+  loadBalancerIP: 192.168.0.12
   ports:
   - name: dns-udp
     protocol: UDP
