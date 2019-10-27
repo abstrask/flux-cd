@@ -49,7 +49,8 @@ spec:
   entrypoints:
   - https
   routes:
-  - match: Host(`hal.rask.dk`) && PathPrefix(`/sonarr`)
+  # - match: Host(`hal.rask.dk`) && PathPrefix(`/sonarr`)
+  - match: PathPrefix(`/sonarr`)
     kind: Rule
     services:
     - name: sonarr

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sonarr-config-claim
+  name: bazarr-config-claim
   namespace: dvr
 spec:
   accessModes:
@@ -15,46 +15,39 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sonarr
+  name: bazarr
   namespace: dvr
   labels:
-    app: sonarr
+    app: bazarr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sonarr
+      app: bazarr
   template:
     metadata:
       labels:
-        app: sonarr
+        app: bazarr
     spec:
       volumes:
-      - name: sonarr-config-vol
+      - name: bazarr-config-vol
         persistentVolumeClaim:
-          claimName: sonarr-config-claim
+          claimName: bazarr-config-claim
       - name: dvr-tv-vol
         persistentVolumeClaim:
           claimName: dvr-tv-claim
-      - name: dvr-downloads-vol
-        persistentVolumeClaim:
-          claimName: dvr-downloads-claim
-      # - name: freenas-video
-      #   nfs:
         
       containers:
-      - name: sonarr
-        image: linuxserver/sonarr:latest
+      - name: bazarr
+        image: linuxserver/bazarr:latest
         ports:
         - name: web
-          containerPort: 8989
+          containerPort: 6767
         volumeMounts:
-        - name: sonarr-config-vol
+        - name: bazarr-config-vol
           mountPath: "/config"
         - name: dvr-tv-vol
           mountPath: "/tv"
-        - name: dvr-downloads-vol
-          mountPath: "/downloads"
         env:
         - name: TZ
           value: Europe/Copenhagen
@@ -63,14 +56,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sonarr
+  name: bazarr
   namespace: dvr
 spec:
   type: ClusterIP
   selector:
-    app: sonarr
+    app: bazarr
   ports:
   - name: web
     protocol: TCP
-    port: 8989
+    port: 6767
     targetPort: web

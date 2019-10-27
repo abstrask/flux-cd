@@ -1,0 +1,51 @@
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: nginx-clear
+#   namespace: nginx
+# spec:
+#   entryPoints:
+#     - http
+#   routes:
+#   - match: Host(`hal.rask.dk`) && PathPrefix(`/notls`)
+#     kind: Rule
+#     services:
+#     - name: nginx
+#       port: 80
+
+
+# ---    
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: nginx-tls
+#   namespace: nginx
+# spec:
+#   entryPoints:
+#     - https
+#   routes:
+#   - match: Host(`hal.rask.dk`) && PathPrefix(`/tls`)
+#     kind: Rule
+#     services:
+#     - name: nginx
+#       port: 80
+#   tls:
+#     certResolver: default
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx
+  namespace: dvr
+  # annotations:
+    # traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx
+          servicePort: web

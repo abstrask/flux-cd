@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: dvr
+data:
+  nginx.conf: |
+    http {
+      server {
+        location / {
+          root /tv;
+          autoindex on;
+        }
+      }
+    }
+    events {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: dvr
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+      - name: dvr-tv-vol
+        persistentVolumeClaim:
+          claimName: dvr-tv-claim
+      - name: nginx-conf-vol
+        configMap:
+          name: nginx-conf
+      containers:
+      - name: nginx
+        image: nginx:1.17.5
+        ports:
+        - name: web
+          containerPort: 80
+        volumeMounts:
+        - name: dvr-tv-vol
+          mountPath: /tv
+        - name: nginx-conf-vol
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        # - name: nginx-conf-vol
+        #   mountPath: /etc/nginx/conf.d/tv.conf
+        #   subPath: tv.conf
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: dvr
+spec:
+  selector:
+    app: nginx
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 80

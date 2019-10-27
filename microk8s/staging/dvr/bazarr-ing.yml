@@ -1,0 +1,38 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bazarr-ext
+  namespace: dvr
+spec:
+  entrypoints:
+  - https
+  tls:
+    certResolver: default
+  routes:
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/bazarr`)
+    kind: Rule
+    services:
+    - name: bazarr
+      port: 6767
+    middlewares:
+    - name: traefik-auth
+      namespace: traefik
+
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: bazarr-int
+#   namespace: dvr
+# spec:
+#   entrypoints:
+#   - https
+#   routes:
+#   - match: Host(`hal.rask.dk`) && PathPrefix(`/bazarr`) && SOURCEIP??
+#     kind: Rule
+#     services:
+#     - name: bazarr
+#       port: 6767
+#   tls:
+#     certResolver: default

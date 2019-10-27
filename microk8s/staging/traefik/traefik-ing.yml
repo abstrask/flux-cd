@@ -56,16 +56,16 @@
 #   tls:
 #     certResolver: default
 
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: traefik-v1-dashboard
-  namespace: traefik
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          serviceName: traefik-v1
-          servicePort: traefik
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: traefik-v1-dashboard
+#   namespace: traefik
+# spec:
+#   rules:
+#   - http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: traefik-v1
+#           servicePort: traefik

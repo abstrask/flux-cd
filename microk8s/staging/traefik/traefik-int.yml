@@ -63,7 +63,7 @@ spec:
         args:
         - --global.sendAnonymousUsage=true
         - --log=true
-        - --log.level=DEBUG
+        - --log.level=INFO
         - --accesslog=true
         - --api.dashboard=true
         - --api.insecure=true
