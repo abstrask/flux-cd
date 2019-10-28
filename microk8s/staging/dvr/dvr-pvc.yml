@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: dvr-tv-claim
+  name: dvr-downloads-claim
   namespace: dvr
 spec:
   accessModes:
@@ -15,11 +15,11 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: dvr-downloads-claim
+  name: dvr-tv-25g-claim
   namespace: dvr
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 25Gi

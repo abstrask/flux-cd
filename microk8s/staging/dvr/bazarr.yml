@@ -33,10 +33,9 @@ spec:
       - name: bazarr-config-vol
         persistentVolumeClaim:
           claimName: bazarr-config-claim
-      - name: dvr-tv-vol
+      - name: dvr-tv-25g-vol
         persistentVolumeClaim:
-          claimName: dvr-tv-claim
-        
+          claimName: dvr-tv-25g-claim
       containers:
       - name: bazarr
         image: linuxserver/bazarr:latest
@@ -45,9 +44,9 @@ spec:
           containerPort: 6767
         volumeMounts:
         - name: bazarr-config-vol
-          mountPath: "/config"
-        - name: dvr-tv-vol
-          mountPath: "/tv"
+          mountPath: /config
+        - name: dvr-tv-25g-vol
+          mountPath: /tv
         env:
         - name: TZ
           value: Europe/Copenhagen

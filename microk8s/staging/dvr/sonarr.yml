@@ -33,9 +33,9 @@ spec:
       - name: sonarr-config-vol
         persistentVolumeClaim:
           claimName: sonarr-config-claim
-      - name: dvr-tv-vol
+      - name: dvr-tv-25g-vol
         persistentVolumeClaim:
-          claimName: dvr-tv-claim
+          claimName: dvr-tv-25g-claim
       - name: dvr-downloads-vol
         persistentVolumeClaim:
           claimName: dvr-downloads-claim
@@ -50,11 +50,11 @@ spec:
           containerPort: 8989
         volumeMounts:
         - name: sonarr-config-vol
-          mountPath: "/config"
-        - name: dvr-tv-vol
-          mountPath: "/tv"
+          mountPath: /config
+        - name: dvr-tv-25g-vol
+          mountPath: /tv
         - name: dvr-downloads-vol
-          mountPath: "/downloads"
+          mountPath: /downloads
         env:
         - name: TZ
           value: Europe/Copenhagen
