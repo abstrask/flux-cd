@@ -35,9 +35,12 @@ spec:
         app: nginx
     spec:
       volumes:
-      - name: dvr-tv-vol
+      - name: dvr-tv-25g-vol
         persistentVolumeClaim:
-          claimName: dvr-tv-claim
+          claimName: dvr-tv-25g-claim
+      # - name: dvr-tv-nfs-vol
+      #   persistentVolumeClaim:
+      #     claimName: dvr-tv-nfs-claim
       - name: nginx-conf-vol
         configMap:
           name: nginx-conf
@@ -48,8 +51,10 @@ spec:
         - name: web
           containerPort: 80
         volumeMounts:
-        - name: dvr-tv-vol
+        - name: dvr-tv-25g-vol
           mountPath: /tv
+        # - name: dvr-tv-nfs-vol
+        #   mountPath: /tv-nfs
         - name: nginx-conf-vol
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf

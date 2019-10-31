@@ -23,3 +23,32 @@ spec:
   resources:
     requests:
       storage: 25Gi
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: dvr-tv-nfs-pv
+#   namespace: dvr
+# spec:
+#   capacity:
+#     storage: 100Mi
+#   accessModes:
+#     - ReadWriteMany
+#   nfs:
+#     server: 192.168.0.3
+#     path: "/tv"
+
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: dvr-tv-nfs-claim
+#   namespace: dvr
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   storageClassName: ""
+#   resources:
+#     requests:
+#       storage: 100Mi

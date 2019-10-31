@@ -1,0 +1,54 @@
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: kubeinvaders 
+#   namespace: kubeinvaders
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   tls:
+#   - hosts:
+#     - kubeinvaders.org
+#   rules:
+#   - host: kubeinvaders.org 
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: kubeinvaders 
+#           servicePort: 8080
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix
+  namespace: kubeinvaders
+spec:
+  stripPrefix:
+    prefixes:
+    - /kubeinvaders
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubeinvaders
+  namespace: kubeinvaders
+spec:
+  entrypoints:
+  - https
+  routes:
+  - match: Host(`kubeinvaders.rask.dk`)
+  # - match: Host(`hal.rask.dk`) && PathPrefix(`/kubeinvaders`)
+    kind: Rule
+    services:
+    - name: kubeinvaders
+      port: 8080
+    middlewares:
+    - name: traefik-auth
+      namespace: traefik
+    # - name: stripprefix
+  tls:
+    certResolver: default
