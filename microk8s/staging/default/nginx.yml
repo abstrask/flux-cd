@@ -2,17 +2,21 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: nginx-conf
-  namespace: dvr
+  name: nginx-matador-conf
+  namespace: default
 data:
   nginx.conf: |
     http {
       include mime.types;
       server {
         location / {
-          root /tv;
+          root /www;
           autoindex on;
         }
+      }
+      types {
+        video/mp4          f4p f4v m4v mp4;
+        video/x-matroska   mkv mk3d;
       }
     }
     events {}
@@ -26,53 +30,50 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
-  namespace: dvr
+  name: nginx-matador
+  namespace: default
   labels:
-    app: nginx
+    app: nginx-matador
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-matador
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx-matador
     spec:
       volumes:
-      - name: dvr-tv-25g-vol
-        persistentVolumeClaim:
-          claimName: dvr-tv-25g-claim
-      # - name: dvr-tv-nfs-vol
-      #   persistentVolumeClaim:
-      #     claimName: dvr-tv-nfs-claim
       - name: nginx-conf-vol
         configMap:
-          name: nginx-conf
+          name: nginx-matador-conf
+      - name: nfs-matador-vol
+        nfs:
+          server: 192.168.0.3
+          path: /mnt/vol1/video/Serier/Matador
+          readOnly: true
       containers:
       - name: nginx
         image: nginx:1.17.5
+        volumeMounts:
+        - name: nginx-conf-vol
+          mountPath: /etc/nginx/
+        - name: nfs-matador-vol
+          mountPath: /www/matador
         ports:
         - name: web
           containerPort: 80
-        volumeMounts:
-        - name: dvr-tv-25g-vol
-          mountPath: /tv
-        # - name: dvr-tv-nfs-vol
-        #   mountPath: /tv-nfs
-        - name: nginx-conf-vol
-          mountPath: /etc/nginx/
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx
-  namespace: dvr
+  name: nginx-matador
+  namespace: default
 spec:
   selector:
-    app: nginx
+    app: nginx-matador
   ports:
     - name: web
       protocol: TCP

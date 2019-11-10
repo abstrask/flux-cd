@@ -68,7 +68,7 @@ spec:
         - if [ -e /etc/pihole/setupVars.conf ]; then sed -i "/WEBPASSWORD/d" "/etc/pihole/setupVars.conf" && echo Pihole password cleared from /etc/pihole/setupVars.conf; fi
         volumeMounts:
         - name: pihole-local-etc-volume
-          mountPath: "/etc/pihole"
+          mountPath: /etc/pihole
       containers:
       - name: pihole
         image: pihole/pihole:latest

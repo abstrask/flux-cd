@@ -65,6 +65,7 @@ spec:
         - --log=true
         - --log.level=INFO
         - --accesslog=true
+        - --api=true
         - --api.dashboard=true
         - --api.insecure=true
         - --entrypoints.http.address=:80

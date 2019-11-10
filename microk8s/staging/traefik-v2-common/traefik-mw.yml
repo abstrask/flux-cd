@@ -2,17 +2,6 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: dashboard
-  namespace: traefik
-spec:
-  replacePathRegex:
-    regex: ^/traefik/(.*)
-    replacement: /dashboard/$1
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
   name: redirect-https
   namespace: traefik
 spec:

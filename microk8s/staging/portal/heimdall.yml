@@ -1,3 +1,18 @@
+# https://docs.linuxserver.io/images/docker-heimdall
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: heimdall-config-claim
+  namespace: portal
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -16,9 +31,16 @@ spec:
       labels:
         app: heimdall
     spec:
+      volumes:
+      - name: heimdall-config-volume
+        persistentVolumeClaim:
+          claimName: heimdall-config-claim
       containers:
       - name: heimdall
         image: linuxserver/heimdall:latest
+        volumeMounts:
+        - name: heimdall-config-volume
+          mountPath: /config
         ports:
         - name: http
           containerPort: 80
@@ -42,46 +64,6 @@ spec:
     targetPort: 80
 
 ---
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: heimdall
-  namespace: portal
-  annotations:
-    # traefik.frontend.rule.type: PathPrefixStrip
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /heimdall
-        backend:
-          serviceName: heimdall
-          servicePort: web
-
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: stripprefix
-  namespace: portal
-spec:
-  stripPrefix:
-    prefixes:
-    - /heimdall
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: replacepath
-  namespace: portal
-spec:
-  replacePathRegex:
-    regex: ^/heimdall/(.*)
-    replacement: /$1
-
----
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -89,12 +71,15 @@ metadata:
   namespace: portal
 spec:
   entrypoints:
-  - http
+  - https
   routes:
-  - match: PathPrefix(`/heimdall`)
+  - match: Host(`heimdall.rask.dk`)
     kind: Rule
     services:
     - name: heimdall
       port: 80
     middlewares:
-    - name: replacepath
+    - name: traefik-auth
+      namespace: traefik
+  tls:
+    certResolver: default

@@ -1,6 +1,20 @@
 # https://hub.docker.com/r/linuxserver/muximux/
 
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: muximux-config-claim
+  namespace: portal
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,9 +32,16 @@ spec:
       labels:
         app: muximux
     spec:
+      volumes:
+      - name: muximux-config-volume
+        persistentVolumeClaim:
+          claimName: muximux-config-claim
       containers:
       - name: muximux
         image: linuxserver/muximux:latest
+        volumeMounts:
+        - name: muximux-config-volume
+          mountPath: /config
         ports:
         - name: http
           containerPort: 80
@@ -41,19 +62,3 @@ spec:
     port: 80
     targetPort: 80
 
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: muximux
-  namespace: portal
-  annotations:
-    # traefik.frontend.rule.type: PathPrefixStrip
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /muximux
-        backend:
-          serviceName: muximux
-          servicePort: web

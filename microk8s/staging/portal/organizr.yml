@@ -1,4 +1,18 @@
 # https://github.com/causefx/Organizr
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: organizr-config-claim
+  namespace: portal
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -17,9 +31,16 @@ spec:
       labels:
         app: organizr
     spec:
+      volumes:
+      - name: organizr-config-volume
+        persistentVolumeClaim:
+          claimName: organizr-config-claim
       containers:
       - name: organizr
         image: organizrtools/organizr-v2:latest
+        volumeMounts:
+        - name: organizr-config-volume
+          mountPath: /config
         ports:
         - name: http
           containerPort: 80
@@ -39,20 +60,3 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 80
-
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: organizr
-  namespace: portal
-  annotations:
-    traefik.frontend.rule.type: PathPrefixStrip
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /organizr
-        backend:
-          serviceName: organizr
-          servicePort: web
