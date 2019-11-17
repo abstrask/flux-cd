@@ -36,16 +36,18 @@ spec:
   tls:
     certResolver: default
 
-# apiVersion: extensions/v1beta1
-# kind: Ingress
-# metadata:
-#   name: traefik-v1-dashboard
-#   namespace: traefik
-# spec:
-#   rules:
-#   - http:
-#       paths:
-#       - path: /
-#         backend:
-#           serviceName: traefik-v1
-#           servicePort: traefik
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ping
+  namespace: traefik
+spec:
+  entrypoints:
+  - http
+  routes:
+  - match: (PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: traefik-ext
+      port: 8082
