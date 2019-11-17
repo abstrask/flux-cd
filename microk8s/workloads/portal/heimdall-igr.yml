@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: heimdall
+  namespace: portal
+spec:
+  entrypoints:
+  - https
+  routes:
+  - match: Host(`heimdall.rask.dk`)
+    kind: Rule
+    services:
+    - name: heimdall
+      port: 80
+    middlewares:
+    - name: traefik-auth
+      namespace: traefik
+  tls:
+    certResolver: default
