@@ -46,7 +46,7 @@ spec:
   entrypoints:
   - traefik
   routes:
-  - match: (PathPrefix(`/ping`)
+  - match: PathPrefix(`/ping`)
     kind: Rule
     services:
     - name: traefik-ext
