@@ -44,10 +44,10 @@ metadata:
   namespace: traefik
 spec:
   entrypoints:
-  - http
+  - traefik
   routes:
   - match: (PathPrefix(`/ping`)
     kind: Rule
     services:
     - name: traefik-ext
-      port: 8082
+      port: 8080

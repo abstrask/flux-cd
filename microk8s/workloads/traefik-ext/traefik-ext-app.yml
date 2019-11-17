@@ -54,8 +54,6 @@ spec:
           containerPort: 443
         - name: traefik
           containerPort: 8080
-        - name: ping
-          containerPort: 8082
         securityContext:
           capabilities:
             drop:
@@ -101,6 +99,3 @@ spec:
   - name: traefik
     protocol: TCP
     port: 8080
-  - name: ping
-    protocol: TCP
-    port: 8082
