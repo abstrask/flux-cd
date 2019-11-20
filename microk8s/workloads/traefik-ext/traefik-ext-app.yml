@@ -24,6 +24,8 @@ apiVersion: apps/v1
 metadata:
   name: traefik-ext
   namespace: traefik
+  labels:
+    k8s-app: traefik-ext
 spec:
   selector:
     matchLabels:
@@ -31,8 +33,9 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: traefik-ext
         name: traefik-ext
+        app: traefik-ext
+        k8s-app: traefik-ext
     spec:
       volumes:
       - name: traefik-ext-volume

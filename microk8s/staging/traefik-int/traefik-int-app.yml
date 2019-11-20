@@ -24,6 +24,8 @@ apiVersion: apps/v1
 metadata:
   name: traefik-int
   namespace: traefik
+  labels:
+    k8s-app: traefik-int
 spec:
   selector:
     matchLabels:
@@ -31,8 +33,9 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: traefik-int
         name: traefik-int
+        app: traefik-int
+        k8s-app: traefik-int
     spec:
       volumes:
       - name: traefik-int-volume
@@ -42,7 +45,7 @@ spec:
       terminationGracePeriodSeconds: 60
       containers:
       - image: traefik:v2.0
-        imagePullPolicy: Always
+        # imagePullPolicy: Always
         name: traefik
         volumeMounts:
         - mountPath: /etc/traefik

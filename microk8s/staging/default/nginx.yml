@@ -14,10 +14,6 @@ data:
           autoindex on;
         }
       }
-      types {
-        video/mp4          f4p f4v m4v mp4;
-        video/x-matroska   mkv mk3d;
-      }
     }
     events {}
   mime.types: |
