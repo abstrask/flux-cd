@@ -99,9 +99,7 @@ spec:
         - name: VIRTUAL_HOST
           value: 192.168.0.10
         - name: DNS1
-          value: 91.239.100.100
-        - name: DNS2
-          value: 89.233.43.71
+          value: 1.1.1.1
         - name: TZ
           value: "Europe/Copenhagen"
         - name: DNS_FQDN_REQUIRED
