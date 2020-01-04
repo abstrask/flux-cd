@@ -100,6 +100,8 @@ spec:
           value: 192.168.0.10
         - name: DNS1
           value: 1.1.1.1
+        - name: DNS2
+          value: 1.0.0.1
         - name: TZ
           value: "Europe/Copenhagen"
         - name: DNS_FQDN_REQUIRED
