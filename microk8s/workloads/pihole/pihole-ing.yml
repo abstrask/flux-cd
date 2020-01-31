@@ -38,5 +38,7 @@ spec:
     middlewares:
     - name: redirect
     - name: stripprefix
+    - name: traefik-auth
+      namespace: traefik
   tls:
     certResolver: default
