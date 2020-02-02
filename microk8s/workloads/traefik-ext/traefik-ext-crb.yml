@@ -7,7 +7,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: traefik-v2-cr
+  name: traefik-v2_1-cr
 subjects:
   - kind: ServiceAccount
     name: traefik-ext-sa
