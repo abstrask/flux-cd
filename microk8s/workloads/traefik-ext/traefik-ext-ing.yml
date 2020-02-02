@@ -1,0 +1,53 @@
+# ---
+# apiVersion: traefik.containo.us/v1alpha1
+# kind: IngressRoute
+# metadata:
+#   name: http-to-https-redirect
+#   namespace: traefik
+# spec:
+#   entrypoints:
+#   - http
+#   routes:
+#   - match: Host(`hal.rask.dk`)
+#     kind: Rule
+#     services:
+#     - name: traefik
+#       port: 80
+#     middlewares:
+#     - name: redirect-https
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ext-dashboard
+  namespace: traefik
+spec:
+  entrypoints:
+    - https
+  routes:
+    - match: Host(`hal.rask.dk`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+      kind: Rule
+      services:
+        - name: traefik-ext
+          port: 8080
+      middlewares:
+        - name: traefik-auth
+  tls:
+    certResolver: default
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ext-ping
+  namespace: traefik
+spec:
+  entrypoints:
+    - traefik
+  routes:
+    - match: PathPrefix(`/ping`)
+      kind: Rule
+      services:
+        - name: traefik-ext
+          port: 8080

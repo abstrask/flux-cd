@@ -20,19 +20,19 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-dashboard
+  name: traefik-int-dashboard
   namespace: traefik
+  annotations:
+    kubernetes.io/ingress.class: traefik-internal
 spec:
   entrypoints:
-  - https
+    - https
   routes:
-  - match: Host(`hal.rask.dk`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
-    kind: Rule
-    services:
-    - name: traefik-ext
-      port: 8080
-    middlewares:
-    - name: traefik-auth
+    - match: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: traefik-int
+          port: 8080
   tls:
     certResolver: default
 
@@ -40,14 +40,16 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-ping
+  name: traefik-int-ping
   namespace: traefik
+  annotations:
+    kubernetes.io/ingress.class: traefik-internal
 spec:
   entrypoints:
-  - traefik
+    - traefik
   routes:
-  - match: PathPrefix(`/ping`)
-    kind: Rule
-    services:
-    - name: traefik-ext
-      port: 8080
+    - match: PathPrefix(`/ping`)
+      kind: Rule
+      services:
+        - name: traefik-int
+          port: 8080
