@@ -76,7 +76,7 @@ spec:
             - --certificatesresolvers.default.acme.email=hostmaster@rask.dk
             - --certificatesresolvers.default.acme.storage=/etc/traefik/acme.json
             - --certificatesresolvers.default.acme.tlschallenge=true
-            - --certificatesresolvers.default.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory # Debugging only
+          # - --certificatesresolvers.default.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory # Debugging only
           # - --serverstransport.insecureskipverify
 
 ---
