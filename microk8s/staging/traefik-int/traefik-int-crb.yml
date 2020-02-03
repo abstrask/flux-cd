@@ -2,12 +2,12 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: traefik-int-crb
+  name: traefik-v2_1-int-crb
 
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: traefik-v2-cr
+  name: traefik-v2_1-cr
 subjects:
   - kind: ServiceAccount
     name: traefik-int-sa
