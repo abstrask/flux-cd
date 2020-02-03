@@ -28,7 +28,7 @@ spec:
   entrypoints:
     - https
   routes:
-    - match: PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+    - match: Host(`hal.rask.dk`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
       kind: Rule
       services:
         - name: traefik-int

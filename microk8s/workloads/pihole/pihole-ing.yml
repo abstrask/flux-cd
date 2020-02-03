@@ -7,7 +7,7 @@ metadata:
 spec:
   stripPrefix:
     prefixes:
-    - /pihole
+      - /pihole
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -28,17 +28,40 @@ metadata:
   namespace: pihole
 spec:
   entrypoints:
-  - https
+    - https
   routes:
-  - match: Host(`hal.rask.dk`) && PathPrefix(`/pihole`)
-    kind: Rule
-    services:
-    - name: pihole-tcp
-      port: 80
-    middlewares:
-    - name: redirect
-    - name: stripprefix
-    - name: traefik-auth
-      namespace: traefik
+    - match: Host(`hal.rask.dk`) && PathPrefix(`/pihole`)
+      kind: Rule
+      services:
+        - name: pihole-tcp
+          port: 80
+      middlewares:
+        - name: redirect
+        - name: stripprefix
+        - name: traefik-auth
+          namespace: traefik
+  tls:
+    certResolver: default
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pihole
+  namespace: pihole
+  annotations:
+    kubernetes.io/ingress.class: traefik-internal
+spec:
+  entrypoints:
+    - https
+  routes:
+    - match: Host(`hal.rask.dk`) && PathPrefix(`/pihole`)
+      kind: Rule
+      services:
+        - name: pihole-tcp
+          port: 80
+      middlewares:
+        - name: redirect
+        - name: stripprefix
   tls:
     certResolver: default
