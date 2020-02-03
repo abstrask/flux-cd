@@ -72,7 +72,7 @@ spec:
             - --api.insecure=true
             - --entrypoints.http.address=:80
             - --entrypoints.https.address=:443
-            - --providers.kubernetesCRD.ingressclass="traefik-internal"
+            - --providers.kubernetesCRD.ingressclass=traefik-internal
             - --certificatesresolvers.default.acme.email=hostmaster@rask.dk
             - --certificatesresolvers.default.acme.storage=/etc/traefik/acme.json
             - --certificatesresolvers.default.acme.tlschallenge=true
