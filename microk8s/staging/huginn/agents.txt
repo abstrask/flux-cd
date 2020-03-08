@@ -1,0 +1,54 @@
+# Bond price source
+{
+  "expected_update_period_in_days": "1",
+  "url": "https://www.mitnykredit.dk/api/kurslister/udbetaling/privat",
+  "type": "json",
+  "mode": "on_change"
+}
+
+# Bond price query
+{
+  "filter": "[{hentet: .createTime, navn: .kursliste[].navn} + .kursliste[].obligationer[] | select((.loebetid == \"30\") and (.navn | contains(\"Fastforrentede\")))?] | unique_by(.isin)",
+  "variables": {
+  }
+}
+
+# Bond price trigger
+{
+  "expected_receive_period_in_days": "3",
+  "keep_event": "true",
+  "rules": [
+    {
+      "type": "field>=value",
+      "value": "98.5",
+      "path": "tilbudskurs"
+    },
+    {
+      "type": "field<=value",
+      "value": "100",
+      "path": "tilbudskurs"
+    }
+  ]
+}
+
+# Bond price format
+{
+  "instructions": {
+    "email_subject": "Obligation {{isin}} ({{rente}}%): {{tilbudskurs}}",
+    "email_body": "Type: {{navn}}<br>Kode: {{isin}}<br>Rente: {{rente}}<br><br><b>Tilbudskurs: {{tilbudskurs}}<\/b><br>Aktuel kurs: {{aktuelkurs}}<br>Effektiv rente: {{effektivRente}}<br>Udvikling: {{udvikling}}<p><i>Opdateret: {{hentet | replace: \"T\", \" \"}}<\/i>"
+  },
+  "matchers": [
+
+  ],
+  "mode": "clean"
+}
+
+# Bond price email
+{
+  "subject": "{{email_subject}}",
+  "body": "{{email_body}}",
+  "recipients": [
+    "alias3@rask.dk"
+  ],
+  "expected_receive_period_in_days": "3"
+}

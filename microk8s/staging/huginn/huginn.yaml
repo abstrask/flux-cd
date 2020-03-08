@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: huginn
+  name: huginn
+  namespace: huginn
+spec:
+  selector:
+    matchLabels:
+      app: huginn
+  template:
+    metadata:
+      labels:
+        app: huginn
+    spec:
+      volumes:
+        - name: huginn-mysql-vol
+          persistentVolumeClaim:
+            claimName: huginn-mysql-claim
+      containers:
+        - image: huginn/huginn
+          name: huginn
+          env:
+            - name: TIMEZONE
+              value: Copenhagen
+            - name: IMPORT_DEFAULT_SCENARIO_FOR_ALL_USERS
+              value: "false"
+            # Don't create the default "admin" user with password "password".
+            # - name: DO_NOT_SEED
+            #   value: "true"
+            - name: INVITATION_CODE
+              valueFrom:
+                secretKeyRef:
+                  name: huginn
+                  key: INVITATION_CODE
+            - name: SMTP_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: huginn
+                  key: SMTP_DOMAIN
+            - name: SMTP_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: huginn
+                  key: SMTP_USER_NAME
+            - name: EMAIL_FROM_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: huginn
+                  key: SMTP_USER_NAME
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: huginn
+                  key: SMTP_PASSWORD
+            - name: SMTP_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: huginn
+                  key: SMTP_SERVER
+            - name: SMTP_PORT
+              value: "587"
+            - name: SMTP_AUTHENTICATION
+              value: plain
+            - name: SMTP_ENABLE_STARTTLS_AUTO
+              value: "true"
+          volumeMounts:
+            - name: huginn-mysql-vol
+              mountPath: /var/lib/mysql

@@ -1,0 +1,39 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: huginn-ext
+  namespace: huginn
+spec:
+  entrypoints:
+    - https
+  routes:
+    - match: Host(`huginn.rask.dk`)
+      kind: Rule
+      services:
+        - name: huginn
+          port: 3000
+      middlewares:
+        - name: traefik-auth
+          namespace: traefik
+  tls:
+    certResolver: default
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: huginn-int
+  namespace: huginn
+  annotations:
+    kubernetes.io/ingress.class: traefik-internal
+spec:
+  entrypoints:
+    - https
+  routes:
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: huginn
+          port: 3000
+  tls:
+    certResolver: default
