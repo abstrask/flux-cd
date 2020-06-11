@@ -12,6 +12,7 @@ spec:
   chart:
     repository: https://grafana.github.io/loki/charts
     name: loki/loki-stack
+    version: 0.37.3
   values:
 
     fluent-bit:
