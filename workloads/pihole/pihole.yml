@@ -106,6 +106,15 @@ spec:
           value: "Europe/Copenhagen"
         - name: DNS_FQDN_REQUIRED
           value: "false"
+          # conditionally forward local queries to DHCP server - breaks DNS lookup, by appending local domain name to all queries?
+        # - name: CONDITIONAL_FORWARDING
+        #   value: "true"
+        # - name: CONDITIONAL_FORWARDING_IP
+        #   value: 192.168.0.2
+        # - name: CONDITIONAL_FORWARDING_DOMAIN
+        #   value: rask.local
+        # - name: CONDITIONAL_FORWARDING_REVERSE
+        #   value: 0.168.192.in-addr.arpa
         - name: WEBPASSWORD
           valueFrom:
             secretKeyRef:
