@@ -5,13 +5,12 @@ metadata:
   name: loki-stack
   namespace: monitoring
   annotations:
-    fluxcd.io/automated: "true" # true or false?
-    # filter.fluxcd.io/chart-image: semver:~0.4
+    fluxcd.io/automated: "true"
 spec:
   releaseName: loki-stack
   chart:
     repository: https://grafana.github.io/loki/charts
-    name: loki/loki-stack
+    name: loki-stack
     version: 0.37.3
   values:
 
