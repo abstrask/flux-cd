@@ -1,0 +1,35 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: loki-stack
+  namespace: monitoring
+  annotations:
+    fluxcd.io/automated: "true" # true or false?
+    filter.fluxcd.io/chart-image: semver:~0.4
+spec:
+  releaseName: loki-stack
+  chart:
+    repository: https://grafana.github.io/loki/charts
+    name: loki/loki-stack
+  values:
+
+    fluent-bit:
+      enabled: true
+      
+    promtail:
+      enabled: false
+      
+    grafana:
+      enabled: true
+    
+    prometheus:
+      enabled: true
+
+      alertmanager:
+        persistentVolume:
+          enabled: false
+
+      server:
+        persistentVolume:
+          enabled: false
