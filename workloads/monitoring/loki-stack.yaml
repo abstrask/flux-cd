@@ -60,3 +60,11 @@ spec:
         service:
           loadBalancerIP: 192.168.0.13
           type: LoadBalancer
+      extraScrapeConfigs: |
+        - job_name: hue-exporter
+          metrics_path: /
+          scrape_interval: 1m
+          scrape_timeout: 30s
+          static_configs:
+            - targets:
+              - hue-exporter.monitoring.svc:9366
