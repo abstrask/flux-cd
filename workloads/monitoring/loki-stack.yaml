@@ -1,0 +1,64 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: loki-stack
+  namespace: monitoring
+  annotations:
+    fluxcd.io/automated: "true"
+spec:
+  releaseName: loki-stack
+  chart:
+    repository: https://grafana.github.io/loki/charts
+    name: loki-stack
+    version: 0.37.3
+  values:
+
+    loki:
+      persistence:
+        enabled: true
+        size: 2Gi
+
+    fluent-bit:
+      enabled: true
+      
+    promtail:
+      enabled: false
+      
+    grafana:
+      enabled: true
+            persistence:
+        enabled: true
+      sidecar:
+        datasources:
+          enabled: true
+      persistence:
+        enabled: true
+        size: 1Gi
+      grafana.ini:
+        server:
+          domain: hal.rask.dk
+          root_url: "https://hal.rask.dk/grafana"
+          serve_from_sub_path: true
+
+    prometheus:
+      enabled: true
+
+      alertmanager:
+        persistentVolume:
+          enabled: false
+        service:
+          loadBalancerIP: 192.168.0.14
+          type: NodePort
+
+      server:
+        extraFlags:
+          - web.enable-lifecycle
+          - storage.tsdb.wal-compression
+        retention: "90d"
+        persistentVolume:
+          enabled: true
+          size: 5Gi
+        service:
+          loadBalancerIP: 192.168.0.13
+          type: NodePort

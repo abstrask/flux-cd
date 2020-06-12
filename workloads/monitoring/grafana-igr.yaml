@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  entrypoints:
+  - https
+  routes:
+  - match: Host(`hal.rask.dk`) && PathPrefix(`/grafana`)
+    kind: Rule
+    services:
+    - name: loki-stack-grafana
+      port: 80
+    middlewares:
+    - name: traefik-auth
+      namespace: traefik
+  tls:
+    certResolver: default
