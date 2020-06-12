@@ -47,7 +47,7 @@ spec:
           enabled: false
         service:
           loadBalancerIP: 192.168.0.14
-          type: NodePort
+          type: LoadBalancer
 
       server:
         extraFlags:
@@ -59,4 +59,4 @@ spec:
           size: 5Gi
         service:
           loadBalancerIP: 192.168.0.13
-          type: NodePort
+          type: LoadBalancer
