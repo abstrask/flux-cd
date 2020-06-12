@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hue-exporter
+  name: hue-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hue-exporter
+  template:
+    metadata:
+      labels:
+        app: hue-exporter
+    spec:
+      containers:
+      - image: mitchellrj/hue_exporter:0.2.2
+        name: hue-exporter
+        volumeMounts:
+          - name: hue-exporter-config
+            mountPath: /etc/hue_exporter
+            readOnly: true
+        ports:
+        - containerPort: 9366
+      volumes:
+      - name: hue-exporter-config
+        secret:
+          secretName: hue-exporter-config
+          items:
+            - key: hue-exporter-config.yaml
+              path: config.yml
