@@ -27,14 +27,12 @@ spec:
       
     grafana:
       enabled: true
-            persistence:
-        enabled: true
-      sidecar:
-        datasources:
-          enabled: true
       persistence:
         enabled: true
         size: 1Gi
+      sidecar:
+        datasources:
+          enabled: true
       grafana.ini:
         server:
           domain: hal.rask.dk
