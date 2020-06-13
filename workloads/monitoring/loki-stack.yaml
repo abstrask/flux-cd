@@ -62,7 +62,7 @@ spec:
           type: LoadBalancer
       extraScrapeConfigs: |
         - job_name: hue-exporter
-          metrics_path: /
+          metrics_path: /metrics
           scrape_interval: 1m
           scrape_timeout: 30s
           static_configs:
