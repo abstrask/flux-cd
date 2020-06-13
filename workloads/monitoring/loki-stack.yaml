@@ -37,6 +37,8 @@ spec:
       sidecar:
         datasources:
           enabled: true
+      plugins:
+        - flant-statusmap-panel
       grafana.ini:
         server:
           domain: hal.rask.dk
