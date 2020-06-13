@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole-exporter
+  namespace: monitoring
+  labels:
+    app: pihole-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole-exporter
+  template:
+    metadata:
+      labels:
+        app: pihole-exporter
+        name: pihole-exporter
+    spec:
+      containers:
+      - name: pihole-exporter
+        image: ekofr/pihole-exporter:latest
+        ports:
+        - name: metrics
+          containerPort: 9617
+        env:
+        - name: PIHOLE_HOSTNAME
+          value: pihole-tcp.pihole.svc
+        - name: PIHOLE_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: pihole-exporter
+              key: API_TOKEN
+        - name: INTERVAL
+          value: 30s
+        - name: PORT
+          value: "9617"
