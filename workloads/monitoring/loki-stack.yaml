@@ -78,6 +78,13 @@ spec:
           static_configs:
             - targets:
               - hue-exporter.monitoring.svc:9366
+        - job_name: pihole-exporter
+          metrics_path: /metrics
+          scrape_interval: 1m
+          scrape_timeout: 30s
+          static_configs:
+            - targets:
+              - pihole-exporter.monitoring.svc:9617
         - job_name: 'prometheus-blackbox-exporter'
           metrics_path: /probe
           params:
