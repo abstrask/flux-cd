@@ -30,6 +30,8 @@ spec:
       persistence:
         enabled: true
         size: 1Gi
+      image:
+        tag: 7.0.3
       sidecar:
         datasources:
           enabled: true
