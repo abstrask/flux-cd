@@ -41,6 +41,7 @@ spec:
           enabled: false
       plugins:
         - flant-statusmap-panel
+        - grafana-piechart-panel
       grafana.ini:
         server:
           domain: hal.rask.dk
