@@ -23,7 +23,8 @@ spec:
             mountPath: /etc/hue_exporter
             readOnly: true
         ports:
-        - containerPort: 9366
+        - name: metrics
+          containerPort: 9366
       volumes:
       - name: hue-exporter-config
         secret:
