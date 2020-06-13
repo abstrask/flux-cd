@@ -73,3 +73,19 @@ spec:
           static_configs:
             - targets:
               - hue-exporter.monitoring.svc:9366
+        - job_name: 'prometheus-blackbox-exporter'
+          metrics_path: /probe
+          params:
+            module: [http_2xx]
+          static_configs:
+            - targets:
+              - https://adfs.dfds.com/adfs/ls/IdpInitiatedSignOn.aspx
+              - https://adfs.dfds.com/FederationMetadata/2007-06/FederationMetadata.xml
+              - https://port.dfds.com/
+          relabel_configs:
+            - source_labels: [__address__]
+              target_label: __param_target
+            - source_labels: [__param_target]
+              target_label: instance
+            - target_label: __address__
+              replacement: prometheus-blackbox-exporter:9115

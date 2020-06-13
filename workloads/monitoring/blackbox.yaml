@@ -1,0 +1,17 @@
+ apiVersion: helm.fluxcd.io/v1
+ kind: HelmRelease
+ metadata:
+   name: blackbox
+   namespace: monitoring
+   annotations:
+     flux.weave.works/automated: "true"
+ spec:
+  releaseName: prometheus-blackbox-exporter
+  chart:
+    repository: https://kubernetes-charts.storage.googleapis.com/
+    name: prometheus-blackbox-exporter
+    version: 4.1.0
+  values:
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9115"
