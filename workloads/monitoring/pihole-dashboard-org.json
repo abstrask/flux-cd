@@ -1,9 +1,63 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.1"
+    },
+    {
+      "type": "panel",
+      "id": "grafana-piechart-panel",
+      "name": "Pie Chart",
+      "version": "1.3.6"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "Prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -44,7 +98,6 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "Prometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -135,7 +188,6 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Prometheus",
       "decimals": null,
       "format": "none",
       "gauge": {
@@ -220,7 +272,6 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "Prometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -303,7 +354,6 @@
         "label": "Others",
         "threshold": 0
       },
-      "datasource": "Prometheus",
       "fontSize": "80%",
       "format": "short",
       "gridPos": {
@@ -349,13 +399,6 @@
       "combine": {
         "label": "Others",
         "threshold": 0
-      },
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
       },
       "fontSize": "80%",
       "format": "short",
@@ -404,7 +447,6 @@
         "label": "Others",
         "threshold": 0
       },
-      "datasource": "Prometheus",
       "fontSize": "80%",
       "format": "short",
       "gridPos": {
@@ -449,7 +491,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -533,7 +574,6 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": "Prometheus",
       "gridPos": {
         "h": 5,
         "w": 4,
@@ -601,7 +641,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -689,7 +728,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -783,7 +821,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -878,7 +915,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -962,7 +998,6 @@
     },
     {
       "columns": [],
-      "datasource": "Prometheus",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1019,7 +1054,6 @@
     },
     {
       "columns": [],
-      "datasource": "Prometheus",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1080,7 +1114,6 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -1164,13 +1197,12 @@
     },
     {
       "aliasColors": {
-        "pihole_unique_clients{hostname=\"pihole-tcp.pihole.svc\",instance=\"pihole-exporter.monitoring.svc:9617\",job=\"pihole-exporter\"}": "rgb(255, 255, 255)",
-        "pihole_unique_domains{hostname=\"pihole-tcp.pihole.svc\",instance=\"pihole-exporter.monitoring.svc:9617\",job=\"pihole-exporter\"}": "super-light-yellow"
+        "pihole_unique_clients{hostname=\"127.0.0.1\",instance=\"localhost:9311\",job=\"pihole\"}": "rgb(255, 255, 255)",
+        "pihole_unique_domains{hostname=\"127.0.0.1\",instance=\"localhost:9311\",job=\"pihole\"}": "super-light-yellow"
       },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "Prometheus",
       "fill": 10,
       "gridPos": {
         "h": 5,
@@ -1254,7 +1286,7 @@
       }
     }
   ],
-  "refresh": "1m",
+  "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -1263,7 +1295,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "Prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "label_values(pihole_ads_blocked_today, hostname)",
         "hide": 0,
         "includeAll": false,
@@ -1285,7 +1317,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
