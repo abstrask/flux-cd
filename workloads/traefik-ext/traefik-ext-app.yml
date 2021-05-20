@@ -44,7 +44,7 @@ spec:
       serviceAccountName: traefik-ext-sa
       terminationGracePeriodSeconds: 60
       containers:
-        - image: traefik:v2.1
+        - image: traefik:v2.4
           # imagePullPolicy: Always
           name: traefik
           volumeMounts:
