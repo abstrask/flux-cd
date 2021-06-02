@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: json-exporter
+  name: json-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: json-exporter
+  template:
+    metadata:
+      labels:
+        app: json-exporter
+    spec:
+      containers:
+      - image: localhost:32000/json_exporter:v0.1.0
+        name: json-exporter
+        args:
+        - ...
+        volumeMounts:
+          - name: json-exporter-config
+            mountPath: /etc/hue_exporter
+            readOnly: true
+        ports:
+        - name: metrics
+          containerPort: 7979
+      volumes:
+      - name: json-exporter-config
+        secret:
+          secretName: json-exporter-config
+          items:
+            - key: json-exporter-config.yaml
+              path: config.yml
