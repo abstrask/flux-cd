@@ -18,6 +18,9 @@ spec:
     middlewares:
     - name: traefik-auth
       namespace: traefik
+    middlewares:
+    - name: traefik-auth
+      namespace: traefik
 
 # ---
 # apiVersion: traefik.containo.us/v1alpha1
