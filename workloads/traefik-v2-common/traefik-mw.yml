@@ -17,3 +17,4 @@ metadata:
 spec:
   basicAuth:
     secret: traefik-users
+    removeHeader: true
