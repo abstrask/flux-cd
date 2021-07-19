@@ -8,9 +8,9 @@
  spec:
   releaseName: prometheus-blackbox-exporter
   chart:
-    repository: https://kubernetes-charts.storage.googleapis.com/
+    repository: https://prometheus-community.github.io/helm-charts
     name: prometheus-blackbox-exporter
-    version: 4.1.0
+    version: 5.0.1
   values:
     podAnnotations:
       prometheus.io/scrape: "true"
